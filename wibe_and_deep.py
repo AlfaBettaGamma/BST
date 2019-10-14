@@ -121,7 +121,7 @@ class BST:
         return result # количество узлов в дереве
 
 
-    def WideAllNodes(self):
+    def WideAllNodes(self):  # обход в ширину
         def width(lvl, Mylist):
             if lvl == 0:
                 Mylist = [self.Root]
@@ -136,7 +136,7 @@ class BST:
             return Mylist
         return width(0, [])
 
-    def DeepAllNodes(self, order):
+    def DeepAllNodes(self, order):  # обход в глубину
         def Deep(order, node, Mylist):
             if node == 0:
                 node = self.Root
