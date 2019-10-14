@@ -1,4 +1,4 @@
-from test import BST, BSTNode, BSTFind
+from wibe_and_deep import BST, BSTNode, BSTFind
 
 class my_test:
 	def test1(self):
@@ -21,32 +21,6 @@ class my_test:
 
 		tree = BST(A1)
 		tree.AddKeyValue(9, 38)
-		print(tree.FindNodeByKey(7).NodeHasKey)
-		print(tree.FindNodeByKey(9).NodeHasKey)
-		tree.AddKeyValue(15, 42)
-		print(tree.FindNodeByKey(15).NodeHasKey)
-		print(tree.FindNodeByKey(19).NodeHasKey)
-		tree.DeleteNodeByKey(15)
-
-		print('______________________________')
-
-		print(tree.FindNodeByKey(7).NodeHasKey)
-		tree.AddKeyValue(7, 60)
-		print(tree.FindNodeByKey(7).NodeHasKey)
-
-		print('______________________________')
-
-		print(tree.FindNodeByKey(5).NodeHasKey)
-		tree.AddKeyValue(5, 33)
-		print(tree.FindNodeByKey(5).NodeHasKey)
-
-		print('______________________________')
-		print('количество узлов до - ', tree.Count())
-		print(tree.FindNodeByKey(9).NodeHasKey)
-		tree.AddKeyValue(9, 38)
-		print('количество узлов после - ', tree.Count())
-
-		print('_______________________________')
 		tree.AddKeyValue(8, 20)
 		tree.AddKeyValue(12, 70)
 		tree.AddKeyValue(10, 44)
@@ -58,18 +32,11 @@ class my_test:
 		tree.AddKeyValue(25, 67)
 		tree.AddKeyValue(22, 47)
 		tree.AddKeyValue(30, 74)
-		print(tree.FinMinMax(tree.Root ,True).NodeValue)
-		print(tree.FinMinMax(tree.Root ,False).NodeValue)
-		
-
-		print('______________________________')
-		print(tree.FindNodeByKey(12).NodeHasKey)
-		tree.DeleteNodeByKey(12)
-		print(tree.FindNodeByKey(12).NodeHasKey)
-
-
 
 		print('количество узлов - ', tree.Count())
+
+		print('обход в ширину - ', tree.WideAllNodes())
+		print('обход в глубину - ', tree.DeepAllNodes(0))
 
 
 test = my_test()

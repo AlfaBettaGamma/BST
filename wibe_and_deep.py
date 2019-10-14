@@ -1,12 +1,11 @@
 class BSTNode:
-	
+    
     def __init__(self, key, val, parent):
-        self.NodeKey = key  # ключ узла
-        self.NodeValue = val  # значение в узле
-        self.Parent = parent  # родитель или None для корня
-        self.LeftChild = None  # левый потомок
-        self.RightChild = None  # правый потомок
-        self.Lvl = 0  # уровень узла относительно корня
+        self.NodeKey = key # ключ узла
+        self.NodeValue = val # значение в узле
+        self.Parent = parent # родитель или None для корня
+        self.LeftChild = None # левый потомок
+        self.RightChild = None # правый потомок
 
 
 class BSTFind: # промежуточный результат поиска
@@ -23,7 +22,6 @@ class BST:
 
     def __init__(self, node):
         self.Root = node # корень дерева, или None
-        self.lvl = 0
 
     def FindNodeByKey(self, key):
         node = BSTFind()
@@ -41,21 +39,17 @@ class BST:
         else:
             node.NodeHasKey = True
         # ищем в дереве узел и сопутствующую информацию по ключу
-        return node# возвращает BSTFind
+        return node # возвращает BSTFind
 
     def AddKeyValue(self, key, val):
-        node = self.FindNodeByKey(key)
-        nextNode = BSTNode(key, val, None)
+        node = self.FindNodeByKey( key)
+        downNode = BSTNode(key, val, None)
         if node.NodeHasKey is False:
             if node.ToLeft is False:
-                self.lvl = nextNode.Lvl + 1 + nextNode.Lvl
-                nextNode.Lvl = self.Lvl
-                node.Node.RightChild = nextNode
+                node.Node.RightChild = downNode
             else:
-                self.lvl = nextNode.Lvl + 1 + nextNode.Lvl
-                nextNode.Lvl = self.lvl
-                node.Node.LeftChild = nextNode
-            nextNode.Parent = node.Node
+                node.Node.LeftChild = downNode
+            downNode.Parent = node.Node
             return True
         else:
             return False
@@ -65,14 +59,14 @@ class BST:
     def FinMinMax(self, FromNode, FindMax):
         node = FromNode
         if FindMax is True:
-            while node.RightChild is None:
+            while node.RightChild is not None:
                 node = node.RightChild
         else:
-            while node.LeftChild is None:
+            while node.LeftChild is not None:
                 node = node.LeftChild
         # ищем максимальное/минимальное (узел) в поддереве
         return node
-	
+    
     def DeleteNodeByKey(self, key):
         node = self.FindNodeByKey(key)
         if node.NodeHasKey is True:
@@ -83,15 +77,15 @@ class BST:
                     successor.Parent.RightChild = None
                 else:
                     successor.Parent.LeftChild = None
-            else:
+            else:  
                 if node.Node.RightChild is not None:
                     successor = node.Node.RightChild
                     node.Node.RightChild = successor.RightChild
                     node.Node.LeftChild = successor.LeftChild
                 elif node.Node.LeftChild is not None :
                     successor = node.Node.LeftChild
-                    node.Node.RightChild = successor.RightChild
                     node.Node.LeftChild = successor.LeftChild
+                    node.Node.RightChild = successor.RightChild
                 else:
                     successor = node.Node
                     if successor.Parent.RightChild == successor:
@@ -101,9 +95,9 @@ class BST:
             successor.Parent = None
             node.Node.NodeKey = successor.NodeKey
             node.Node.NodeValue = successor.NodeValue
-            return True
-        else:
-        # удаляем узел по ключу
+            return True  
+        else:    
+            # удаляем узел по ключу
             return False # если узел не найден
 
     def Count(self):
@@ -125,3 +119,54 @@ class BST:
             if i is not None:
                 result += 1
         return result # количество узлов в дереве
+
+
+    def WideAllNodes(self):
+        def width(lvl, Mylist):
+            if lvl == 0:
+                Mylist = [self.Root]
+            for i in Mylist[lvl:]:
+                if i.LeftChild is not None:
+                    Mylist.append(i.LeftChild)
+                if i.RightChild is not None:
+                    Mylist.append(i.RightChild)
+                lvl += 1
+            if lvl != len(Mylist):
+                width(lvl, Mylist)
+            return Mylist
+        return width(0, [])
+
+    def DeepAllNodes(self, order):
+        def Deep(order, node, Mylist):
+            if node == 0:
+                node = self.Root
+
+            def leftBranch():
+                if node.LeftChild is not None:
+                    Deep(order, node.LeftChild, Mylist)
+
+            def rightBranch():
+                if node.RightChild is not None:
+                    Deep(order, node.RightChild, Mylist)
+
+            def middleBranch():
+                if node is not Mylist:
+                    Mylist.append(node)
+
+            actions = [leftBranch, middleBranch, rightBranch]
+            if order == 0:
+                for i in actions:
+                    i()
+            elif order == 1 :
+                actions[0]()
+                actions[2]()
+                actions[1]()
+            elif order == 2 :
+                actions[1]()
+                actions[0]()
+                actions[2]()
+            myList = Mylist
+            Mylist = []
+            return myList
+        Mylist = []
+        return Deep(order, self.Root, Mylist)

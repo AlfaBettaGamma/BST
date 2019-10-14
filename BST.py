@@ -119,4 +119,3 @@ class BST:
             if i is not None:
                 result += 1
         return result # количество узлов в дереве
-
